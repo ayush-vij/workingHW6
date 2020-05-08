@@ -32,7 +32,7 @@
       <button class="btn btn-block btn-danger m-t-3" routerLink="/admin">Admin</button>
     </div>
 
-    <div class="col-9 p-2">
+    <div class="col-9 p-2" [style.visibility]="isDivVisible ? 'visible' : 'hidden'">
       <div *ngFor="let product of products" class="card m-1 p-1 bg-light">
         <h4>
           {{ product.name }}

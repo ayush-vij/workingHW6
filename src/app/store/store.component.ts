@@ -8,14 +8,16 @@ import { StaticDataSource } from '../model/static.datasource'
 @Component({
   selector: 'store',
   templateUrl: 'store.component.html',
+
+
 })
 export class StoreComponent {
   public selectedCategory = null
   public productsPerPage = 4
   public selectedPage = 1
-  public isDivisble: boolean = false;
+  public isDivVisible: boolean = true;
 
-  public list: any = [
+  public productsList: any = [
     new Product(1, 'Cricket Bat', 'Cricket', 'Cricket Bat (Cricket)', 100),
     new Product(2, 'Cricket Bowl', 'Cricket', 'Cricket Bowl (Cricket)', 70),
     new Product(3, 'Soccer Ball', 'Soccer', 'Soccer Ball (Soccer)', 120),
@@ -32,7 +34,7 @@ export class StoreComponent {
     new Product(14, 'Shoes', 'Misc', 'Shoes (Misc)', 50),
     new Product(15, 'Stumps', 'Cricket', 'Stumps (Cricket)', 40),
   ]
-  public productsList = (this.list);
+
 
   constructor(private repository: ProductRepository, private cart: Cart, private router: Router) { }
 
@@ -48,17 +50,20 @@ export class StoreComponent {
   }
 
   search(filterValue: string) {
+    // debugger
+    // const productsList = this.repository.getProducts(this.selectedCategory)
+    // console.log("display product list", productsList);
     debugger
-    const productsList = this.repository.getProducts(this.selectedCategory)
-    console.log("display product list", productsList);
-    console.log(this.productsList.length);
-     this.productsList.filter = filterValue.trim().toLowerCase();
-     this.productsList.length = this.productsList.filteredData.length;
-     if (this.productsList.filteredData.length == 0) {
-       this.isDivisble = false;
-     } else {
-       this.isDivisble = true;
-     }
+    // console.log(this.productsList.length);
+    this.productsList.filter = filterValue.trim().toLowerCase();
+        
+    this.productsList.length = this.productsList.forEach((s: any) => s.name = s.name);
+    
+    if (this.productsList.length == 0) {
+      this.isDivVisible = false;
+    } else {
+      this.isDivVisible = true;
+    }
   }
 
   changeCategory(newCategory?: string) {
