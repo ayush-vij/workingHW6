@@ -2,6 +2,11 @@
   <div class="row">
     <div class="col bg-dark text-white">
       <a class="navbar-brand">SPORTS STORE</a>
+      <input type="search" class="search" placeholder="Search Product" />
+      
+      <button class="btn btn-secondary float-right" type="button">
+        <i class="fa fa-search"></i>
+      </button>
       <cart-summary></cart-summary>
     </div>
   </div>
@@ -26,7 +31,7 @@
       <div *ngFor="let product of products" class="card m-1 p-1 bg-light">
         <h4>
           {{ product.name }}
-          <span class="badge badge-pill badge-primary float-right">
+          <span class="badge badge-pill badge-primary float-right float-right">
             {{ product.price | currency: 'USD':'symbol':'2.2-2' }}
           </span>
         </h4>

@@ -16,3 +16,4 @@ const routing = RouterModule.forChild([
     declarations: [AuthComponent, AdminComponent],
 })
 export class AdminModule {}
+
