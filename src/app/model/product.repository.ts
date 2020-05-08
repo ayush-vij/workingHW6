@@ -17,8 +17,9 @@ export class ProductRepository {
     })
   }
 
-  getProducts(category: string = null): Product[] {
-    return this.products.filter(p => category == null || category == p.category)
+  getProducts(category: string = null, searchedText: string): Product[] {
+    let list = this.products.filter(p => category == null || category == p.category)
+    return applyFilter(searchedText, list);   //apply this code for filter...
   }
 
   getProduct(id: number): Product {
@@ -28,4 +29,38 @@ export class ProductRepository {
   getCategories(): string[] {
     return this.categories
   }
+}
+
+// search string in the list... 
+export function applyFilter(filterValue: any, list: any[]) {
+  let returnList = [];
+  filterValue = filterValue.trimLeft();
+  filterValue = filterValue.trim().toLowerCase();
+  if (!filterValue || filterValue == "") {
+    returnList = list.map(s => Object.assign(s));
+  }
+  else {
+    let targetColumns = ['name', 'description', 'price'];
+    returnList = filterListBySearchStringOnDisplayedColumns(filterValue, list, targetColumns).map(s => Object.assign(s));
+  }
+  return returnList;
+}
+
+export function filterListBySearchStringOnDisplayedColumns(searchString: string, targetList: any[], targetColumns: string[]) {
+  let searchedList: any[] = [];
+  let _targetList: any[] = targetList.map(s => Object.assign({}, s));
+  for (var i = 0; i < _targetList.length; i++) {
+    for (var j = 0; j < targetColumns.length; j++) {
+      let obj = _targetList[i];
+      let column = targetColumns[j];
+      let val = obj[column];
+      let value = val ? val.toString().toLowerCase() : '';
+      let found = value.includes(searchString);
+      if (found) {
+        searchedList.push(_targetList[i]);
+        break;
+      }
+    }
+  }
+  return searchedList;
 }

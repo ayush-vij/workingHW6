@@ -8,14 +8,14 @@ import { StaticDataSource } from '../model/static.datasource'
 @Component({
   selector: 'store',
   templateUrl: 'store.component.html',
-
-
 })
 export class StoreComponent {
   public selectedCategory = null
   public productsPerPage = 4
   public selectedPage = 1
-  public isDivVisible: boolean = true;
+
+  public filteredProductList: any;
+  public searchedText = '';
 
   public productsList: any = [
     new Product(1, 'Cricket Bat', 'Cricket', 'Cricket Bat (Cricket)', 100),
@@ -35,35 +35,21 @@ export class StoreComponent {
     new Product(15, 'Stumps', 'Cricket', 'Stumps (Cricket)', 40),
   ]
 
-
   constructor(private repository: ProductRepository, private cart: Cart, private router: Router) { }
 
   get products(): Product[] {
     let pageIndex = (this.selectedPage - 1) * this.productsPerPage
-    return this.repository
-      .getProducts(this.selectedCategory)
-      .slice(pageIndex, pageIndex + this.productsPerPage)
+    let list = this.repository.getProducts(this.selectedCategory, this.searchedText); //apply 2nd param for search w.r.t list
+    return list.slice(pageIndex, pageIndex + this.productsPerPage);
   }
 
   get categories(): string[] {
     return this.repository.getCategories()
   }
 
-  search(filterValue: string) {
-    // debugger
-    // const productsList = this.repository.getProducts(this.selectedCategory)
-    // console.log("display product list", productsList);
-    debugger
-    // console.log(this.productsList.length);
-    this.productsList.filter = filterValue.trim().toLowerCase();
-        
-    this.productsList.length = this.productsList.forEach((s: any) => s.name = s.name);
-    
-    if (this.productsList.length == 0) {
-      this.isDivVisible = false;
-    } else {
-      this.isDivVisible = true;
-    }
+  // search text from header
+  setSearchText(value) {
+    this.searchedText = value;
   }
 
   changeCategory(newCategory?: string) {
@@ -80,7 +66,7 @@ export class StoreComponent {
   }
 
   get pageNumbers(): number[] {
-    const products = this.repository.getProducts(this.selectedCategory)
+    const products = this.repository.getProducts(this.selectedCategory, this.searchedText) //apply 2nd param for search w.r.t pagination
     const pages = products.length / this.productsPerPage
     const pageCount = Math.ceil(pages)
     const pageNumbers = Array(pageCount)
