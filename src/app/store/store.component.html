@@ -1,3 +1,8 @@
+<head>
+  
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet"/>
+</head>
+
 <div class="container-fluid">
   <div class="row">
     <div class="col bg-dark text-white">
@@ -31,13 +36,13 @@
       <div *ngFor="let product of products" class="card m-1 p-1 bg-light">
         <h4>
           {{ product.name }}
-          <span class="badge badge-pill badge-primary float-right float-right">
+          <span class="badge badge-pill badge-primary float-right">
             {{ product.price | currency: 'USD':'symbol':'2.2-2' }}
           </span>
         </h4>
         <div class="card-text bg-white p-1">
           {{ product.description }}
-          <button class="btn btn-successs btn-sm float-right" (click)="addProductToCart(product)">
+          <button class="btn btn-success btn-sm float-right" (click)="addProductToCart(product)">
             Add to Cart
           </button>
         </div>

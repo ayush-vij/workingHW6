@@ -14,21 +14,8 @@ export class StoreComponent {
   public productsPerPage = 4
   public selectedPage = 1
   public isDivisble: boolean = false;
- 
-  constructor(private repository: ProductRepository, private cart: Cart, private router: Router) { }
 
-  get products(): Product[] {
-    let pageIndex = (this.selectedPage - 1) * this.productsPerPage
-    return this.repository
-      .getProducts(this.selectedCategory)
-      .slice(pageIndex, pageIndex + this.productsPerPage)
-  }
-
-  get categories(): string[] {
-    return this.repository.getCategories()
-  }
-
-  private productsList: Product[] = [
+  public list: any = [
     new Product(1, 'Cricket Bat', 'Cricket', 'Cricket Bat (Cricket)', 100),
     new Product(2, 'Cricket Bowl', 'Cricket', 'Cricket Bowl (Cricket)', 70),
     new Product(3, 'Soccer Ball', 'Soccer', 'Soccer Ball (Soccer)', 120),
@@ -45,19 +32,32 @@ export class StoreComponent {
     new Product(14, 'Shoes', 'Misc', 'Shoes (Misc)', 50),
     new Product(15, 'Stumps', 'Cricket', 'Stumps (Cricket)', 40),
   ]
+  public productsList = (this.list);
 
-  // getProducts(): Observable<Product[]> {
-  //   return from([this.products])
-  // }
+  constructor(private repository: ProductRepository, private cart: Cart, private router: Router) { }
 
+  get products(): Product[] {
+    let pageIndex = (this.selectedPage - 1) * this.productsPerPage
+    return this.repository
+      .getProducts(this.selectedCategory)
+      .slice(pageIndex, pageIndex + this.productsPerPage)
+  }
+
+  get categories(): string[] {
+    return this.repository.getCategories()
+  }
 
   search(filterValue: string) {
-    this.Products.filter = filterValue.trim().toLowerCase();
-    this.length = this.productsList.filteredData.length;
-    if (this.productsList.filteredData.length == 0) {
-      this.isDivisble = false;
-     } else { 
-      this.isDivisble = true;
+    debugger
+    const productsList = this.repository.getProducts(this.selectedCategory)
+    console.log("display product list", productsList);
+    console.log(this.productsList.length);
+     this.productsList.filter = filterValue.trim().toLowerCase();
+     this.productsList.length = this.productsList.filteredData.length;
+     if (this.productsList.filteredData.length == 0) {
+       this.isDivisble = false;
+     } else {
+       this.isDivisble = true;
      }
   }
 
